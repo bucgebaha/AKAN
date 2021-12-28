@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bhabu\\source\\repos\\AKAN\\AKAN\\AKAN.csproj": {}
+    "C:\\Users\\bhabu\\Documents\\GitHub\\AKAN\\AKAN\\AKAN.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bhabu\\source\\repos\\AKAN\\AKAN\\AKAN.csproj": {
+    "C:\\Users\\bhabu\\Documents\\GitHub\\AKAN\\AKAN\\AKAN.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bhabu\\source\\repos\\AKAN\\AKAN\\AKAN.csproj",
+        "projectUniqueName": "C:\\Users\\bhabu\\Documents\\GitHub\\AKAN\\AKAN\\AKAN.csproj",
         "projectName": "AKAN",
-        "projectPath": "C:\\Users\\bhabu\\source\\repos\\AKAN\\AKAN\\AKAN.csproj",
+        "projectPath": "C:\\Users\\bhabu\\Documents\\GitHub\\AKAN\\AKAN\\AKAN.csproj",
         "packagesPath": "C:\\Users\\bhabu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bhabu\\source\\repos\\AKAN\\AKAN\\obj\\",
+        "outputPath": "C:\\Users\\bhabu\\Documents\\GitHub\\AKAN\\AKAN\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bhabu\\AppData\\Roaming\\NuGet\\NuGet.Config",
