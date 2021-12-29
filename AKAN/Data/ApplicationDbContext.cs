@@ -1,4 +1,5 @@
 ﻿using AKAN.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AKAN.Data
@@ -18,5 +19,8 @@ namespace AKAN.Data
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<HospitalAcc> HospitalAccs { get; set; }
         public DbSet<Proposal> Proposals { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Report> Reports { get; set; }
+        public DbSet<BloodType> BloodTypes { get; set; }
     }
 }

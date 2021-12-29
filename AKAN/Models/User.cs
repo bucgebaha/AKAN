@@ -19,7 +19,7 @@ namespace AKAN.Models
         public string? Location { get; set; }
         public int? MaxDestination { get; set; }
         public bool isAvailable { get; set; } = true;
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
 
     }
 }

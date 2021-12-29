@@ -27,12 +27,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-class NoteDb : DbContext
-{
-    public NoteDb(DbContextOptions<NoteDb> options) : base(options)
-    {
-
-    }
-    public DbSet<User> Notes => Set<User>();
-}

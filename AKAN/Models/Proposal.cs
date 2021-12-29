@@ -12,6 +12,6 @@ namespace AKAN.Models
         public int TransmitterId { get; set; }
         public bool isAccepted { get; set; } = false;
         public int? ChatId { get; set; }
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }

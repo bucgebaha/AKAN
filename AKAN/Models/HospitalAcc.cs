@@ -13,6 +13,6 @@ namespace AKAN.Models
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }

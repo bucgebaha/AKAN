@@ -112,6 +112,23 @@ namespace AKAN.Migrations
                     b.ToTable("Banned");
                 });
 
+            modelBuilder.Entity("AKAN.Models.BloodType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BloodTypes");
+                });
+
             modelBuilder.Entity("AKAN.Models.ChatRoom", b =>
                 {
                     b.Property<int>("Id")
@@ -244,6 +261,29 @@ namespace AKAN.Migrations
                     b.ToTable("HospitalAccs");
                 });
 
+            modelBuilder.Entity("AKAN.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("AKAN.Models.Proposal", b =>
                 {
                     b.Property<int>("Id")
@@ -270,6 +310,29 @@ namespace AKAN.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proposals");
+                });
+
+            modelBuilder.Entity("AKAN.Models.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatRoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("AKAN.Models.User", b =>

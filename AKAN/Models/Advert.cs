@@ -20,6 +20,6 @@ namespace AKAN.Models
         public int? DonatorId { get; set; }
         public bool isActive { get; set; } = true;
 
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }

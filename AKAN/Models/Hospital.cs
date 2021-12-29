@@ -16,6 +16,6 @@ namespace AKAN.Models
         public City City { get; set; }
         [Required]
         public District District { get; set; }
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }

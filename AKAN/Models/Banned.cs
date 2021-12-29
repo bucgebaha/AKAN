@@ -9,6 +9,6 @@ namespace AKAN.Models
         [Required]
         public int UserId { get; set; }
         public string? Reason { get; set; }
-        public DateTime CreationTime { get; set; } = DateTime.Now;
+        public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }
