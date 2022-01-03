@@ -43,6 +43,15 @@ namespace AKAN.Controllers
             return new Response(true, new { BloodType = bloodType }, null);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<BloodType>> PostBloodType(BloodType bloodType)
+        {
+            _context.BloodTypes.Add(bloodType);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetBloodType", new { id = bloodType.Id }, bloodType);
+        }
+
         private bool BloodTypeExists(int id)
         {
             return _context.BloodTypes.Any(e => e.Id == id);
