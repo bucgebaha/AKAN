@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/Proposals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Proposal>>> GetProposals()
+        public async Task<ActionResult<Response>> GetProposals()
         {
-            return await _context.Proposals.ToListAsync();
+            return new Response(true, new { Proposals = await _context.Proposals.ToListAsync() }, null);
         }
 
         // GET: api/Proposals/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Proposal>> GetProposal(int id)
+        public async Task<ActionResult<Response>> GetProposal(int id)
         {
             var proposal = await _context.Proposals.FindAsync(id);
 
             if (proposal == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait Proposal bulunamadı.");
             }
 
-            return proposal;
+            return new Response(true, new { Proposal = proposal }, null);
         }
 
         // PUT: api/Proposals/5

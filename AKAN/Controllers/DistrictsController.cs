@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/Districts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<District>>> GetDistricts()
+        public async Task<ActionResult<Response>> GetDistricts()
         {
-            return await _context.Districts.ToListAsync();
+            return new Response(true, new { Districts = await _context.Districts.ToListAsync() }, null);
         }
 
         // GET: api/Districts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<District>> GetDistrict(int id)
+        public async Task<ActionResult<Response>> GetDistrict(int id)
         {
             var district = await _context.Districts.FindAsync(id);
 
             if (district == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait District bulunamadı.");
             }
 
-            return district;
+            return new Response(true, new { District = district }, null);
         }
 
         // PUT: api/Districts/5

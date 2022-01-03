@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/BloodTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BloodType>>> GetBloodTypes()
+        public async Task<ActionResult<Response>> GetBloodTypes()
         {
-            return await _context.BloodTypes.ToListAsync();
+            return new Response(true, new { BloodTypes = await _context.BloodTypes.ToListAsync() }, null);
         }
 
         // GET: api/BloodTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BloodType>> GetBloodType(int id)
+        public async Task<ActionResult<Response>> GetBloodType(int id)
         {
             var bloodType = await _context.BloodTypes.FindAsync(id);
 
             if (bloodType == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait BloodType bulunamadı.");
             }
 
-            return bloodType;
+            return new Response(true, new { BloodType = bloodType }, null);
         }
 
         private bool BloodTypeExists(int id)

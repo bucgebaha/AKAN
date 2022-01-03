@@ -25,23 +25,23 @@ namespace AKAN.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<Response>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return new Response(true, new { Users = await _context.Users.ToListAsync() }, null);
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Response>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait User bulunamadı.");
             }
 
-            return user;
+            return new Response(true, new { User = user }, null);
         }
 
         // PUT: api/Users/5
@@ -78,25 +78,25 @@ namespace AKAN.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Response>> PostUser(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return new Response(true, new { CreatedUser = CreatedAtAction("GetUser", new { id = user.Id }, user).Value}, null);
         }
         [HttpPost("Login")]
-        public async Task<ActionResult<User>> LoginUser([FromBody] UserLogin userLogin)
+        public async Task<ActionResult<Response>> LoginUser([FromBody] UserLogin userLogin)
         {
             var user = await _context.Users.Where(x => x.Email == userLogin.Email).ToListAsync();
 
             if (!user.Any())
             {
-                return NotFound();
+                return new Response(false, "", "Email kayıtlı değil.");
             }
 
-            if (user[0].Password == userLogin.Password) return Ok(JsonSerializer.Serialize(user));
-            else return BadRequest(JsonSerializer.Serialize("Yanlis Sifre"));
+            if (user[0].Password == userLogin.Password) return new Response(true, new { User = user }, "");
+            else return new Response(false, "", "Yanlış Şifre!");
         }
 
         // DELETE: api/Users/5

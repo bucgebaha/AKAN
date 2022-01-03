@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/Hospitals
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hospital>>> GetHospitals()
+        public async Task<ActionResult<Response>> GetHospitals()
         {
-            return await _context.Hospitals.ToListAsync();
+            return new Response(true, new { Hospitals = await _context.Hospitals.ToListAsync() }, null);
         }
 
         // GET: api/Hospitals/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hospital>> GetHospital(int id)
+        public async Task<ActionResult<Response>> GetHospital(int id)
         {
             var hospital = await _context.Hospitals.FindAsync(id);
 
             if (hospital == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait Hospital bulunamadı.");
             }
 
-            return hospital;
+            return new Response(true, new { Hospital = hospital }, null);
         }
 
         // PUT: api/Hospitals/5

@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/Notifications
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Notification>>> GetNotifications()
+        public async Task<ActionResult<Response>> GetNotifications()
         {
-            return await _context.Notifications.ToListAsync();
+            return new Response(true, new { Notifications = await _context.Notifications.ToListAsync() }, null);
         }
 
         // GET: api/Notifications/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Notification>> GetNotification(int id)
+        public async Task<ActionResult<Response>> GetNotification(int id)
         {
             var notification = await _context.Notifications.FindAsync(id);
 
             if (notification == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait Notification bulunamadı.");
             }
 
-            return notification;
+            return new Response(true, new { Notification = notification }, null);
         }
 
         // PUT: api/Notifications/5

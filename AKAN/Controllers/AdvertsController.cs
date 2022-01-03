@@ -26,9 +26,9 @@ namespace AKAN.Controllers
 
         // GET: api/Adverts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Advert>>> GetAdverts()
+        public async Task<ActionResult<Response>> GetAdverts()
         {
-            return await _context.Adverts.ToListAsync();
+            return new Response(true, new { Adverts = await _context.Adverts.ToListAsync() }, null);
         }
 
         // GET: api/Adverts/5

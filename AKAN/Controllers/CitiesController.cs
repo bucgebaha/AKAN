@@ -24,9 +24,9 @@ namespace AKAN.Controllers
 
         // GET: api/Cities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<City>>> GetCities()
+        public async Task<ActionResult<Response>> GetCities()
         {
-            return await _context.Cities.ToListAsync();
+            return new Response(true, new { Cities = await _context.Cities.ToListAsync() }, null);
         }
 
         // GET: api/Cities/5

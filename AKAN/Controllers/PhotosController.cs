@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/Photos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Photo>>> GetPhoto()
+        public async Task<ActionResult<Response>> GetPhoto()
         {
-            return await _context.Photo.ToListAsync();
+            return new Response(true, new { Photos = await _context.Photo.ToListAsync() }, null);
         }
 
         // GET: api/Photos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Photo>> GetPhoto(int id)
+        public async Task<ActionResult<Response>> GetPhoto(int id)
         {
             var photo = await _context.Photo.FindAsync(id);
 
             if (photo == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait Photo bulunamadı.");
             }
 
-            return photo;
+            return new Response(true, new { Photo = photo }, null);
         }
 
         // PUT: api/Photos/5

@@ -24,23 +24,23 @@ namespace AKAN.Controllers
 
         // GET: api/ChatRooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ChatRoom>>> GetChatRooms()
+        public async Task<ActionResult<Response>> GetChatRooms()
         {
-            return await _context.ChatRooms.ToListAsync();
+            return new Response(true, new { ChatRooms = await _context.ChatRooms.ToListAsync() }, null);
         }
 
         // GET: api/ChatRooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChatRoom>> GetChatRoom(int id)
+        public async Task<ActionResult<Response>> GetChatRoom(int id)
         {
             var chatRoom = await _context.ChatRooms.FindAsync(id);
 
             if (chatRoom == null)
             {
-                return NotFound();
+                return new Response(false, "", "Id'ye ait ChatRoom bulunamadı.");
             }
 
-            return chatRoom;
+            return new Response(true, new { ChatRoom = chatRoom }, null); ;
         }
 
         // PUT: api/ChatRooms/5
