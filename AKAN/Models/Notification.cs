@@ -10,6 +10,7 @@ namespace AKAN.Models
         public int UserId { get; set; }
         [Required]
         public string Details { get; set; }
+        public bool Seen { get; set; } = false;
         public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }
