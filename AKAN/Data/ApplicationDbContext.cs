@@ -22,5 +22,6 @@ namespace AKAN.Data
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<BloodType> BloodTypes { get; set; }
+        public DbSet<AKAN.Models.Photo> Photo { get; set; }
     }
 }

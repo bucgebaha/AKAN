@@ -13,9 +13,9 @@ namespace AKAN.Models
         public string Location { get; set; }
         public string? Adress { get; set; }
         [Required]
-        public City City { get; set; }
+        public int CityId { get; set; }
         [Required]
-        public District District { get; set; }
+        public int DistrictId { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.UtcNow;
     }
 }

@@ -95,7 +95,6 @@ namespace AKAN.Controllers
                 return NotFound();
             }
 
-
             if (user[0].Password == userLogin.Password) return Ok(JsonSerializer.Serialize(user));
             else return BadRequest(JsonSerializer.Serialize("Yanlis Sifre"));
         }

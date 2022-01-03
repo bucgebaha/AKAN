@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AKAN.Migrations
 {
-    public partial class AddModelsToDatabase : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,6 +60,19 @@ namespace AKAN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Banned", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BloodTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Type = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BloodTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +136,21 @@ namespace AKAN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Details = table.Column<string>(type: "text", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Proposals",
                 columns: table => new
                 {
@@ -137,6 +165,42 @@ namespace AKAN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Proposals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ChatRoomId = table.Column<int>(type: "integer", nullable: false),
+                    Details = table.Column<string>(type: "text", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    BloodType = table.Column<string>(type: "text", nullable: false),
+                    Location = table.Column<string>(type: "text", nullable: true),
+                    MaxDestination = table.Column<int>(type: "integer", nullable: true),
+                    isAvailable = table.Column<bool>(type: "boolean", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +257,9 @@ namespace AKAN.Migrations
                 name: "Banned");
 
             migrationBuilder.DropTable(
+                name: "BloodTypes");
+
+            migrationBuilder.DropTable(
                 name: "ChatRooms");
 
             migrationBuilder.DropTable(
@@ -202,7 +269,16 @@ namespace AKAN.Migrations
                 name: "Hospitals");
 
             migrationBuilder.DropTable(
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
                 name: "Proposals");
+
+            migrationBuilder.DropTable(
+                name: "Reports");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Cities");

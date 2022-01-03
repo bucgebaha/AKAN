@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AKAN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211229173359_ReportsAndBloodTypesToDb")]
-    partial class ReportsAndBloodTypesToDb
+    [Migration("20211230110836_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

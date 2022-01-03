@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AKAN.Data;
 using AKAN.Models;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace AKAN.Controllers
 {
@@ -31,16 +33,22 @@ namespace AKAN.Controllers
 
         // GET: api/Adverts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Advert>> GetAdvert(int id)
+        public async Task<ActionResult<Response>> GetAdvert(int id)
         {
             var advert = await _context.Adverts.FindAsync(id);
 
             if (advert == null)
             {
-                return NotFound();
+                return new Response(false, "", "Verilen Id'ye ait advert bulunamadı");
             }
 
-            return advert;
+            var photos = await _context.Photo.Where(x => x.AdvertId == id).ToListAsync();
+
+
+
+            var response = new Response(true, new { Advert = advert, AdvertPhotos = photos }, null);
+
+            return response;
         }
 
         // PUT: api/Adverts/5

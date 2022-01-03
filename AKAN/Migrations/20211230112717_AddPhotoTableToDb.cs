@@ -1,35 +1,43 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace AKAN.Migrations
 {
-    public partial class AddNotificationTableToDb : Migration
+    public partial class AddPhotoTableToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "photoUrl",
+                table: "Users",
+                type: "text",
+                nullable: true);
+
             migrationBuilder.CreateTable(
-                name: "Notifications",
+                name: "Photo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Details = table.Column<string>(type: "text", nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    AdvertId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.PrimaryKey("PK_Photo", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Notifications");
+                name: "Photo");
+
+            migrationBuilder.DropColumn(
+                name: "photoUrl",
+                table: "Users");
         }
     }
 }

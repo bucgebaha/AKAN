@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AKAN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211229131436_AddNotificationTableToDb")]
-    partial class AddNotificationTableToDb
+    [Migration("20211230113220_DropPhotoFromAdvert")]
+    partial class DropPhotoFromAdvert
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,6 +112,23 @@ namespace AKAN.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Banned");
+                });
+
+            modelBuilder.Entity("AKAN.Models.BloodType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BloodTypes");
                 });
 
             modelBuilder.Entity("AKAN.Models.ChatRoom", b =>
@@ -269,6 +286,26 @@ namespace AKAN.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("AKAN.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdvertId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Photo");
+                });
+
             modelBuilder.Entity("AKAN.Models.Proposal", b =>
                 {
                     b.Property<int>("Id")
@@ -295,6 +332,29 @@ namespace AKAN.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proposals");
+                });
+
+            modelBuilder.Entity("AKAN.Models.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChatRoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("AKAN.Models.User", b =>
@@ -336,6 +396,9 @@ namespace AKAN.Migrations
 
                     b.Property<bool>("isAvailable")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("photoUrl")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
