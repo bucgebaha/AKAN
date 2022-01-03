@@ -68,6 +68,21 @@ namespace AKAN.Controllers
             return response;
         }
 
+        [HttpGet("GetAdvertProposals/{id}")]
+        public async Task<ActionResult<Response>> GetAdvertProposals(int id)
+        {
+            var proposals = await _context.Proposals.Where(x => x.AdvertId == id).ToListAsync();
+
+            if (!proposals.Any())
+            {
+                return new Response(false, "", "Verilen user'a ait advert bulunamadı");
+            }
+
+            var response = new Response(true, new { Proposals = proposals }, null);
+
+            return response;
+        }
+
         // PUT: api/Adverts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
