@@ -17,6 +17,8 @@ namespace AKAN.Models
         [Required]
         public string BloodType { get; set; }
         public string? Location { get; set; }
+        public int? CityId { get; set; }
+        public int? DistrictId { get; set; }
         public int? MaxDestination { get; set; }
         public bool isAvailable { get; set; } = true;
         public string? photoUrl { get; set; }

@@ -43,6 +43,20 @@ namespace AKAN.Controllers
             return new Response(true, new { ChatRoom = chatRoom }, null); ;
         }
 
+        [HttpGet("GetChatRoomWithUser/{myId}/{targetUserId}")]
+        public async Task<ActionResult<Response>> GetChatRoomWithUser(int myId, int targetUserId)
+        {
+            var chatRoom = await _context.ChatRooms.Where(x => (x.TransmitterId == targetUserId || x.TransmitterId == myId) 
+                                                            && (x.ReceiverId == myId || x.ReceiverId == targetUserId)).ToListAsync();
+
+            if (!chatRoom.Any())
+            {
+                return new Response(false, "", "Bu iki kullanıcıya ait ChatRoom bulunamadı.");
+            }
+
+            return new Response(true, new { ChatRoom = chatRoom }, null); ;
+        }
+
         // PUT: api/ChatRooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -53,6 +67,70 @@ namespace AKAN.Controllers
                 return BadRequest();
             }
 
+            _context.Entry(chatRoom).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChatRoomExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("ResetUnreadMessages/{id}")]
+        public async Task<ActionResult<Response>> PutChatRoomMessageCount(int id)
+        {
+            var chatRoom = await _context.ChatRooms.FindAsync(id);
+
+            if (chatRoom == null)
+            {
+                return new Response(false, "", "Id'ye ait ChatRoom bulunamadı.");
+            }
+
+            chatRoom.UnreadMessageCount = 0;
+            _context.Entry(chatRoom).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ChatRoomExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("NewMessage/{id}")]
+        public async Task<ActionResult<Response>> PutChatRoomNewMessage(int id)
+        {
+            var chatRoom = await _context.ChatRooms.FindAsync(id);
+
+            if (chatRoom == null)
+            {
+                return new Response(false, "", "Id'ye ait ChatRoom bulunamadı.");
+            }
+
+            chatRoom.UnreadMessageCount += 1;
             _context.Entry(chatRoom).State = EntityState.Modified;
 
             try

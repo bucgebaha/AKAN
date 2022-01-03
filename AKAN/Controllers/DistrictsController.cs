@@ -43,6 +43,20 @@ namespace AKAN.Controllers
             return new Response(true, new { District = district }, null);
         }
 
+        // GET: api/Districts/5
+        [HttpGet("FromCity/{id}")]
+        public async Task<ActionResult<Response>> GetDistrictsFromCity(int id)
+        {
+            var districtsInCity = await _context.Districts.Where(x => x.CityId == id).ToListAsync();
+
+            if (districtsInCity == null)
+            {
+                return new Response(false, "", "CityId'ye ait District bulunamadı.");
+            }
+
+            return new Response(true, new { DistrictsInCity = districtsInCity }, null);
+        }
+
         // PUT: api/Districts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

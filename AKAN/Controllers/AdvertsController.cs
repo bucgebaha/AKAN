@@ -44,9 +44,26 @@ namespace AKAN.Controllers
 
             var photos = await _context.Photo.Where(x => x.AdvertId == id).ToListAsync();
 
+            var user = await _context.Users.Where(x => x.Id == advert.CreatorID).ToListAsync();
 
+            var hospital = await _context.Hospitals.Where(x => x.Id == advert.HospitalID).ToListAsync();
 
-            var response = new Response(true, new { Advert = advert, AdvertPhotos = photos }, null);
+            var response = new Response(true, new { Advert = advert, AdvertPhotos = photos, AdvertCreator = user, AdvertHospital = hospital }, null);
+
+            return response;
+        }
+
+        [HttpGet("CreatedByUser/{id}")]
+        public async Task<ActionResult<Response>> GetAdvertByUser(int id)
+        {
+            var advert = await _context.Adverts.Where(x => x.CreatorID == id).ToListAsync();
+
+            if (!advert.Any())
+            {
+                return new Response(false, "", "Verilen user'a ait advert bulunamadı");
+            }
+
+            var response = new Response(true, new { Adverts = advert }, null);
 
             return response;
         }

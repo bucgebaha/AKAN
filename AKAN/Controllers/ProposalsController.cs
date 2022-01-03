@@ -85,6 +85,18 @@ namespace AKAN.Controllers
             return CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal);
         }
 
+        [HttpPost("MakeProposal/{transmitterId}/{advertId}")]
+        public async Task<ActionResult<Response>> PostProposal(int transmitterId, int advertId)
+        {
+            Proposal proposal = new Proposal();
+            proposal.AdvertId = advertId;
+            proposal.TransmitterId = transmitterId;
+            _context.Proposals.Add(proposal);
+            await _context.SaveChangesAsync();
+
+            return new Response(true, new { Proposal = CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal).Value }, null);
+        }
+
         // DELETE: api/Proposals/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProposal(int id)

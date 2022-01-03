@@ -75,6 +75,176 @@ namespace AKAN.Controllers
             return NoContent();
         }
 
+        public class UserUpdate
+        {
+            public int UserId { get; set; }
+            public string? newDataString { get; set; }
+            public int? newDataInt { get; set; }
+        }
+        [HttpPut("UpdatePassword")]
+        public async Task<ActionResult<Response>> PutUserPassword([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.Password = userUpdate.newDataString;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Şifre güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        [HttpPut("UpdateEmail")]
+        public async Task<ActionResult<Response>> PutUserEmail([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.Email = userUpdate.newDataString;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "E-Mail güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        [HttpPut("UpdateFullName")]
+        public async Task<ActionResult<Response>> PutUserFullName([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.FullName = userUpdate.newDataString;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "İsim güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        [HttpPut("UpdatePhone")]
+        public async Task<ActionResult<Response>> PutUserPhone([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.Phone = userUpdate.newDataString;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Telefon numarası güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        [HttpPut("UpdateCity")]
+        public async Task<ActionResult<Response>> PutUserCity([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.CityId = userUpdate.newDataInt;
+            user.DistrictId = null;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Telefon numarası güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+        [HttpPut("UpdateDistrict")]
+        public async Task<ActionResult<Response>> PutUserDistrict([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.DistrictId = userUpdate.newDataInt;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Telefon numarası güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("Register")]
