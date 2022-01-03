@@ -74,6 +74,34 @@ namespace AKAN.Controllers
             return NoContent();
         }
 
+        [HttpPut("NotificationHadSeen/{id}")]
+        public async Task<ActionResult<Response>> PutNotificationHadSeen(int id)
+        {
+            var notification = await _context.Notifications.FindAsync(id);
+            notification.Seen = true;
+
+            _context.Entry(notification).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Notification görüldü", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!NotificationExists(id))
+                {
+                    return new Response(false, "", "Notification doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Notifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

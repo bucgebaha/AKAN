@@ -43,6 +43,19 @@ namespace AKAN.Controllers
             return new Response(true, new { Proposal = proposal }, null);
         }
 
+        [HttpGet("MyProposals/{id}")]
+        public async Task<ActionResult<Response>> GetMyProposal(int id)
+        {
+            var proposals = await _context.Proposals.Where(x => x.TransmitterId == id).ToListAsync();
+
+            if (!proposals.Any())
+            {
+                return new Response(false, "", "Id'ye ait Proposal bulunamadı.");
+            }
+
+            return new Response(true, new { MyProposals = proposals }, null);
+        }
+
         // PUT: api/Proposals/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -64,6 +77,34 @@ namespace AKAN.Controllers
                 if (!ProposalExists(id))
                 {
                     return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("AcceptProposal/{id}")]
+        public async Task<ActionResult<Response>> PutAcceptProposal(int id)
+        {
+            var proposal = await _context.Proposals.FindAsync(id);
+            proposal.isAccepted = true;
+
+            _context.Entry(proposal).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Teklif kabul edildi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProposalExists(id))
+                {
+                    return new Response(false, "", "Proposal doesn't exist");
                 }
                 else
                 {
