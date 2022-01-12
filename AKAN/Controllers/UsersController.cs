@@ -250,10 +250,19 @@ namespace AKAN.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<Response>> PostUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            var user2 = await _context.Users.Where(x => x.Email == user.Email).ToListAsync();
 
-            return new Response(true, new { CreatedUser = CreatedAtAction("GetUser", new { id = user.Id }, user).Value}, null);
+            if (user2.Any())
+            {
+                return new Response(false, "", "Email zaten kayıtlı!");
+            }
+            else
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+
+                return new Response(true, new { CreatedUser = CreatedAtAction("GetUser", new { id = user.Id }, user).Value }, null);
+            }
         }
         [HttpPost("Login")]
         public async Task<ActionResult<Response>> LoginUser([FromBody] UserLogin userLogin)
