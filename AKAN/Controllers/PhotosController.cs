@@ -11,7 +11,7 @@ using AKAN.Models;
 
 namespace AKAN.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PhotosController : ControllerBase
     {
