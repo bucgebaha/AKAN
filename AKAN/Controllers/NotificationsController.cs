@@ -105,12 +105,12 @@ namespace AKAN.Controllers
         // POST: api/Notifications
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Notification>> PostNotification(Notification notification)
+        public async Task<ActionResult<Response>> PostNotification(Notification notification)
         {
             _context.Notifications.Add(notification);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNotification", new { id = notification.Id }, notification);
+            return new Response(true, new { Notification = CreatedAtAction("GetNotification", new { id = notification.Id }, notification).Value }, "");
         }
 
         // DELETE: api/Notifications/5

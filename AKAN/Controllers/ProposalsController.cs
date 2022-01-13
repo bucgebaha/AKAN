@@ -118,12 +118,12 @@ namespace AKAN.Controllers
         // POST: api/Proposals
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Proposal>> PostProposal(Proposal proposal)
+        public async Task<ActionResult<Response>> PostProposal(Proposal proposal)
         {
             _context.Proposals.Add(proposal);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal);
+            return new Response(true, new { Proposal = CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal) .Value }, "");
         }
 
         [HttpPost("MakeProposal/{transmitterId}/{advertId}")]

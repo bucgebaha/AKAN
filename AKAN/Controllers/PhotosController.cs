@@ -77,12 +77,12 @@ namespace AKAN.Controllers
         // POST: api/Photos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Photo>> PostPhoto(Photo photo)
+        public async Task<ActionResult<Response>> PostPhoto(Photo photo)
         {
             _context.Photo.Add(photo);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPhoto", new { id = photo.Id }, photo);
+            return new Response(true, new { Photo = CreatedAtAction("GetPhoto", new { id = photo.Id }, photo).Value }, "");
         }
 
         // DELETE: api/Photos/5

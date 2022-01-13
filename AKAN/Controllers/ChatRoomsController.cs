@@ -155,12 +155,12 @@ namespace AKAN.Controllers
         // POST: api/ChatRooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ChatRoom>> PostChatRoom(ChatRoom chatRoom)
+        public async Task<ActionResult<Response>> PostChatRoom(ChatRoom chatRoom)
         {
             _context.ChatRooms.Add(chatRoom);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetChatRoom", new { id = chatRoom.Id }, chatRoom);
+            return new Response(true, new { Chatroom = CreatedAtAction("GetChatRoom", new { id = chatRoom.Id }, chatRoom).Value }, "");
         }
 
         // DELETE: api/ChatRooms/5
