@@ -43,6 +43,19 @@ namespace AKAN.Controllers
             return new Response(true, new { Photo = photo }, null);
         }
 
+        [HttpGet("GetPhotosOfAdvert/{id}")]
+        public async Task<ActionResult<Response>> GetPhotosOfAdvert(int id)
+        {
+            var photos = await _context.Photo.Where(x => x.AdvertId == id).ToListAsync();
+
+            if (!photos.Any())
+            {
+                return new Response(false, "", "Id'ye ait Photo bulunamadı.");
+            }
+
+            return new Response(true, new { Photos = photos }, null);
+        }
+
         // PUT: api/Photos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
