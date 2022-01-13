@@ -29,9 +29,13 @@ namespace AKAN.Controllers
         public async Task<ActionResult<Response>> GetAdverts()
         {
             var Adverts = await _context.Adverts.ToListAsync();
-            var AdvertsWithUserDetail = _context.Adverts.Include("Users").ToList();
+            var Users = await _context.Users.ToListAsync();
+            var query =
+                from advert in _context.Adverts
+                join user in _context.Users on advert.CreatorID equals user.Id
+                select new { Advert = advert, User = user };
 
-            return new Response(true, new { AdvertsWithUserDetail }, null);
+            return new Response(true, query, null);
         }
 
         // GET: api/Adverts/5
