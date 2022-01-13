@@ -21,7 +21,7 @@ namespace AKAN.Models
         public int? DistrictId { get; set; }
         public int? MaxDestination { get; set; }
         public bool isAvailable { get; set; } = true;
-        public string? photoUrl { get; set; }
+        public string photoUrl { get; set; } = "https://firebasestorage.googleapis.com/v0/b/derss5.appspot.com/o/image_2022-01-13_180030.png?alt=media&token=42142e54-fd22-474c-a63d-3597a5238cf3";
         public DateTime CreationTime { get; set; } = DateTime.UtcNow;
 
     }
