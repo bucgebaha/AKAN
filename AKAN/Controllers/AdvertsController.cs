@@ -28,12 +28,18 @@ namespace AKAN.Controllers
         [HttpGet]
         public async Task<ActionResult<Response>> GetAdverts()
         {
-            var Adverts = await _context.Adverts.ToListAsync();
-            var Users = await _context.Users.ToListAsync();
             var query =
                 from advert in _context.Adverts
                 join user in _context.Users on advert.CreatorID equals user.Id
-                select new { Advert = advert, User = user };
+                select new { 
+                    AdvertID = advert.Id,
+                    AdvertBloodType = advert.BloodType,
+                    AdvertCreationTime = advert.CreationTime,
+                    AdvertDetail = advert.Details,
+                    AdvertCreatorId = user.Id,
+                    AdvertCreatorName = user.FullName,
+                    AdvertCreatorPhoto = user.photoUrl
+                };
 
             return new Response(true, query, null);
         }
