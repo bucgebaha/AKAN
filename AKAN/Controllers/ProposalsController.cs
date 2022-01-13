@@ -129,13 +129,22 @@ namespace AKAN.Controllers
         [HttpPost("MakeProposal/{transmitterId}/{advertId}")]
         public async Task<ActionResult<Response>> PostProposal(int transmitterId, int advertId)
         {
-            Proposal proposal = new Proposal();
-            proposal.AdvertId = advertId;
-            proposal.TransmitterId = transmitterId;
-            _context.Proposals.Add(proposal);
-            await _context.SaveChangesAsync();
+            var proposals = await _context.Proposals.Where(x => (x.TransmitterId == transmitterId && x.AdvertId == advertId)).ToListAsync();
 
-            return new Response(true, new { Proposal = CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal).Value }, null);
+            if (proposals.Any())
+            {
+                return new Response(false, "", "Bu ilana zaten teklif gönderdiniz.");
+            }
+            else
+            {
+                Proposal proposal = new Proposal();
+                proposal.AdvertId = advertId;
+                proposal.TransmitterId = transmitterId;
+                _context.Proposals.Add(proposal);
+                await _context.SaveChangesAsync();
+
+                return new Response(true, new { Proposal = CreatedAtAction("GetProposal", new { id = proposal.Id }, proposal).Value }, null);
+            }
         }
 
         // DELETE: api/Proposals/5
