@@ -130,12 +130,12 @@ namespace AKAN.Controllers
         // POST: api/Adverts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Advert>> PostAdvert(Advert advert)
+        public async Task<ActionResult<Response>> PostAdvert(Advert advert)
         {
             _context.Adverts.Add(advert);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAdvert", new { id = advert.Id }, advert);
+            return new Response(true, new { Advert = CreatedAtAction("GetAdvert", new { id = advert.Id }, advert).Value }, "");
         }
 
         // DELETE: api/Adverts/5
