@@ -28,7 +28,10 @@ namespace AKAN.Controllers
         [HttpGet]
         public async Task<ActionResult<Response>> GetAdverts()
         {
-            return new Response(true, new { Adverts = await _context.Adverts.ToListAsync() }, null);
+            var Adverts = await _context.Adverts.ToListAsync();
+            var AdvertsWithUserDetail = _context.Adverts.Include("Users").ToList();
+
+            return new Response(true, new { AdvertsWithUserDetail }, null);
         }
 
         // GET: api/Adverts/5
