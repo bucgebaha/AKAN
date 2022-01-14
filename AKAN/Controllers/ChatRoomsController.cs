@@ -54,7 +54,7 @@ namespace AKAN.Controllers
                 return new Response(false, "", "Bu iki kullanıcıya ait ChatRoom bulunamadı.");
             }
 
-            return new Response(true, new { ChatRoom = chatRoom }, null); ;
+            return new Response(true, new { ChatRoom = chatRoom }, null);
         }
 
         // PUT: api/ChatRooms/5
