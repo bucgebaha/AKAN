@@ -78,24 +78,32 @@ namespace AKAN.Controllers
         public async Task<ActionResult<Response>> PutNotificationHadSeen(int id)
         {
             var notification = await _context.Notifications.FindAsync(id);
-            notification.Seen = true;
-
-            _context.Entry(notification).State = EntityState.Modified;
-
-            try
+            
+            if(notification == null)
             {
-                await _context.SaveChangesAsync();
-                return new Response(true, "Notification görüldü", "");
+                return new Response(false, "", "Notification doesn't exist");
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!NotificationExists(id))
+                notification.Seen = true;
+
+                _context.Entry(notification).State = EntityState.Modified;
+
+                try
                 {
-                    return new Response(false, "", "Notification doesn't exist");
+                    await _context.SaveChangesAsync();
+                    return new Response(true, "Notification görüldü", "");
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!NotificationExists(id))
+                    {
+                        return new Response(false, "", "Notification doesn't exist");
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
