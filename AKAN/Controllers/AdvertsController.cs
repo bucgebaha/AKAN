@@ -101,7 +101,11 @@ namespace AKAN.Controllers
                     ProposalCreationTime = proposal.CreationTime
                 };
 
-            return new Response(true, query, null);
+            if (query.Any())
+            {
+                return new Response(true, query, null);
+            }
+            else return new Response(false, "", "İlana ait başvuru bulunamadı!");
         }
 
         // PUT: api/Adverts/5
