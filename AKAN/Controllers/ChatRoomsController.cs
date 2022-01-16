@@ -43,8 +43,8 @@ namespace AKAN.Controllers
             return new Response(true, new { ChatRoom = chatRoom }, null); ;
         }
 
-        [HttpGet("GetChatRoomWithUser/{myId}/{targetUserId}")]
-        public async Task<ActionResult<Response>> GetChatRoomWithUser(int myId, int targetUserId)
+        [HttpGet("GetChatRoomWithUsers/{myId}/{targetUserId}")]
+        public async Task<ActionResult<Response>> GetChatRoomWithUsers(int myId, int targetUserId)
         {
             var chatRoom = await _context.ChatRooms.Where(x => (x.TransmitterId == targetUserId || x.TransmitterId == myId) 
                                                             && (x.ReceiverId == myId || x.ReceiverId == targetUserId)).ToListAsync();
@@ -52,6 +52,19 @@ namespace AKAN.Controllers
             if (!chatRoom.Any())
             {
                 return new Response(false, "", "Bu iki kullanıcıya ait ChatRoom bulunamadı.");
+            }
+
+            return new Response(true, new { ChatRoom = chatRoom }, null);
+        }
+
+        [HttpGet("GetChatRoomWithUser/{userId}")]
+        public async Task<ActionResult<Response>> GetChatRoomWithUser(int userId)
+        {
+            var chatRoom = await _context.ChatRooms.Where(x => (x.TransmitterId == userId || x.ReceiverId == userId)).ToListAsync();
+
+            if (!chatRoom.Any())
+            {
+                return new Response(false, "", "Bu kullanıcıya ait ChatRoom bulunamadı.");
             }
 
             return new Response(true, new { ChatRoom = chatRoom }, null);
