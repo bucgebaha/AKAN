@@ -84,16 +84,22 @@ namespace AKAN.Controllers
         [HttpGet("GetAdvertProposals/{id}")]
         public async Task<ActionResult<Response>> GetAdvertProposals(int id)
         {
-            var proposals = await _context.Proposals.Where(x => x.AdvertId == id).ToListAsync();
+            var query =
+                from advert in _context.Adverts
+                join proposal in _context.Proposals on advert.Id equals proposal.AdvertId
+                join user in _context.Users on proposal.TransmitterId equals user.Id
+                where advert.Id == id
+                select new
+                {
+                    ProposalId = proposal.Id,
+                    TransmitterName = user.FullName,
+                    TransmitterPhoto = user.photoUrl,
+                    IsProposalAccepted = proposal.isAccepted,
+                    ChatId = proposal.ChatId,
+                    ProposalCreationTime = proposal.CreationTime
+                };
 
-            if (!proposals.Any())
-            {
-                return new Response(false, "", "İlana ait başvuru bulunamadı");
-            }
-
-            var response = new Response(true, new { Proposals = proposals }, null);
-
-            return response;
+            return new Response(true, query, null);
         }
 
         // PUT: api/Adverts/5
