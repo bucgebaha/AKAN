@@ -91,9 +91,11 @@ namespace AKAN.Controllers
                 where advert.Id == id
                 select new
                 {
+                    AdvertId = advert.Id,
                     ProposalId = proposal.Id,
                     TransmitterName = user.FullName,
                     TransmitterPhoto = user.photoUrl,
+                    TransmitterId = user.Id,
                     IsProposalAccepted = proposal.isAccepted,
                     ChatId = proposal.ChatId,
                     ProposalCreationTime = proposal.CreationTime
