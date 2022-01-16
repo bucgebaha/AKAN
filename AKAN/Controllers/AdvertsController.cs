@@ -88,7 +88,7 @@ namespace AKAN.Controllers
 
             if (!proposals.Any())
             {
-                return new Response(false, "", "Verilen advert'a ait advert bulunamadı");
+                return new Response(false, "", "İlana ait başvuru bulunamadı");
             }
 
             var response = new Response(true, new { Proposals = proposals }, null);
