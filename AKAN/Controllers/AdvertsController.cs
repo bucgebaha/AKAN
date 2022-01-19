@@ -31,9 +31,10 @@ namespace AKAN.Controllers
             var query =
                 from advert in _context.Adverts
                 join user in _context.Users on advert.CreatorID equals user.Id
+                join bloodtype in _context.BloodTypes on user.BloodType equals bloodtype.Id
                 select new { 
                     AdvertID = advert.Id,
-                    AdvertBloodType = advert.BloodType,
+                    AdvertBloodType = bloodtype.Type,
                     AdvertCreationTime = advert.CreationTime,
                     AdvertDetail = advert.Details,
                     AdvertCreatorId = user.Id,
@@ -57,11 +58,30 @@ namespace AKAN.Controllers
 
             var photos = await _context.Photo.Where(x => x.AdvertId == id).ToListAsync();
 
-            var user = await _context.Users.Where(x => x.Id == advert.CreatorID).ToListAsync();
+            var userDetail =
+                from user in _context.Users
+                join bloodtype in _context.BloodTypes on user.BloodType equals bloodtype.Id
+                where user.Id == advert.CreatorID
+                select new
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Password = user.Password,
+                    FullName = user.FullName,
+                    BloodType = bloodtype.Type,
+                    Location = user.Location,
+                    CityId = user.CityId,
+                    DistrictId = user.DistrictId,
+                    MaxDestination = user.MaxDestination,
+                    isAvailable = user.isAvailable,
+                    photoUrl = user.photoUrl,
+                    CreationTime = user.CreationTime
+                };
 
             var hospital = await _context.Hospitals.Where(x => x.Id == advert.HospitalID).ToListAsync();
 
-            var response = new Response(true, new { Advert = advert, AdvertPhotos = photos, AdvertCreator = user, AdvertHospital = hospital }, null);
+            var response = new Response(true, new { Advert = advert, AdvertPhotos = photos, AdvertCreator = userDetail, AdvertHospital = hospital }, null);
 
             return response;
         }
