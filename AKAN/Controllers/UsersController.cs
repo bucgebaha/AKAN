@@ -322,7 +322,31 @@ namespace AKAN.Controllers
                 return new Response(false, "", "Email kayıtlı değil.");
             }
 
-            if (user[0].Password == userLogin.Password) return new Response(true, new { User = user }, "");
+            if (user[0].Password == userLogin.Password)
+            {
+                var query =
+                from user2 in _context.Users
+                join bloodtype in _context.BloodTypes on user2.BloodType equals bloodtype.Id
+                where user2.Email == userLogin.Email
+                select new
+                {
+                    Id = user2.Id,
+                    Email = user2.Email,
+                    Phone = user2.Phone,
+                    Password = user2.Password,
+                    FullName = user2.FullName,
+                    BloodType = bloodtype.Type,
+                    Location = user2.Location,
+                    CityId = user2.CityId,
+                    DistrictId = user2.DistrictId,
+                    MaxDestination = user2.MaxDestination,
+                    isAvailable = user2.isAvailable,
+                    photoUrl = user2.photoUrl,
+                    CreationTime = user2.CreationTime
+                };
+
+                return new Response(true, query, "");
+            }
             else return new Response(false, "", "Yanlış Şifre!");
         }
 
