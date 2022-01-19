@@ -15,7 +15,7 @@ namespace AKAN.Models
         [Required]
         public string FullName { get; set; }
         [Required]
-        public string BloodType { get; set; }
+        public int BloodType { get; set; }
         public string? Location { get; set; }
         public int? CityId { get; set; }
         public int? DistrictId { get; set; }

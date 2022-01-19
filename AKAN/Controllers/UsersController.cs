@@ -34,14 +34,35 @@ namespace AKAN.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Response>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var query =
+                from user in _context.Users
+                join bloodtype in _context.BloodTypes on user.BloodType equals bloodtype.Id
+                where user.Id == id
+                select new
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Phone = user.Phone,
+                    Password = user.Password,
+                    FullName = user.FullName,
+                    BloodType = bloodtype.Type,
+                    Location = user.Location,
+                    CityId = user.CityId,
+                    DistrictId = user.DistrictId,
+                    MaxDestination = user.MaxDestination,
+                    isAvailable = user.isAvailable,
+                    photoUrl = user.photoUrl,
+                    CreationTime = user.CreationTime
+                };
 
-            if (user == null)
+            if (query.Any())
             {
-                return new Response(false, "", "Id'ye ait User bulunamadı.");
+                return new Response(true, query, null);
             }
-
-            return new Response(true, new { User = user }, null);
+            else
+            {
+                return new Response(false, null, "Kullanıcı bulunamadı!");
+            }
         }
 
         // PUT: api/Users/5
