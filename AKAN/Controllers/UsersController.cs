@@ -265,6 +265,33 @@ namespace AKAN.Controllers
 
             return NoContent();
         }
+        [HttpPut("ChangeProfilePhoto")]
+        public async Task<ActionResult<Response>> ChangeProfilePhoto([FromBody] UserUpdate userUpdate)
+        {
+            var user = await _context.Users.FindAsync(userUpdate.UserId);
+            user.photoUrl = userUpdate.newDataString;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new Response(true, "Profil fotoğrafı güncellendi", "");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(userUpdate.UserId))
+                {
+                    return new Response(false, "", "User doesn't exist");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
